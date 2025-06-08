@@ -1,0 +1,48 @@
+# dependencies
+node_modules/
+bower_components/
+
+# production
+dist/
+build/
+out/
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-debug.log*
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# testing
+coverage/
+*.lcov
+
+# next.js
+.next/
+out/
+
+# react native
+.expo/
+
+# macOS
+*.DS_Store
+
+# logs
+logs/
+*.log
+
+# parcel-bundler cache
+.cache/
+
+# storybook
+.storybook-out/
+storybook-static/

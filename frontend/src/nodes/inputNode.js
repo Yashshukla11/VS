@@ -1,47 +1,31 @@
-// inputNode.js
+import { createNodeType } from '../basenode';
 
-import { useState } from 'react';
-import { Handle, Position } from 'reactflow';
-
-export const InputNode = ({ id, data }) => {
-  const [currName, setCurrName] = useState(data?.inputName || id.replace('customInput-', 'input_'));
-  const [inputType, setInputType] = useState(data.inputType || 'Text');
-
-  const handleNameChange = (e) => {
-    setCurrName(e.target.value);
-  };
-
-  const handleTypeChange = (e) => {
-    setInputType(e.target.value);
-  };
-
-  return (
-    <div style={{width: 200, height: 80, border: '1px solid black'}}>
-      <div>
-        <span>Input</span>
-      </div>
-      <div>
-        <label>
-          Name:
-          <input 
-            type="text" 
-            value={currName} 
-            onChange={handleNameChange} 
-          />
-        </label>
-        <label>
-          Type:
-          <select value={inputType} onChange={handleTypeChange}>
-            <option value="Text">Text</option>
-            <option value="File">File</option>
-          </select>
-        </label>
-      </div>
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`${id}-value`}
-      />
-    </div>
-  );
-}
+export const InputNode = createNodeType({
+  title: 'Input',
+  fields: [
+    {
+      type: 'text',
+      name: 'inputName',
+      label: 'Input Name',
+      placeholder: 'Enter input name...'
+    },
+    {
+      type: 'select',
+      name: 'inputType',
+      label: 'Input Type',
+      options: [
+        { value: 'text', label: 'Text' },
+        { value: 'number', label: 'Number' },
+        { value: 'file', label: 'File' }
+      ]
+    }
+  ],
+  handles: {
+    inputs: [],
+    outputs: [{ id: 'output', color: '#4ade80' }]
+  },
+  style: {
+    backgroundColor: '#f0f9ff',
+    borderColor: '#0ea5e9'
+  }
+});

@@ -1,34 +1,40 @@
-// llmNode.js
+import { createNodeType } from '../basenode';
 
-import { Handle, Position } from 'reactflow';
-
-export const LLMNode = ({ id, data }) => {
-
-  return (
-    <div style={{width: 200, height: 80, border: '1px solid black'}}>
-      <Handle
-        type="target"
-        position={Position.Left}
-        id={`${id}-system`}
-        style={{top: `${100/3}%`}}
-      />
-      <Handle
-        type="target"
-        position={Position.Left}
-        id={`${id}-prompt`}
-        style={{top: `${200/3}%`}}
-      />
-      <div>
-        <span>LLM</span>
-      </div>
-      <div>
-        <span>This is a LLM.</span>
-      </div>
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`${id}-response`}
-      />
-    </div>
-  );
-}
+export const LLMNode = createNodeType({
+  title: 'LLM',
+  fields: [
+    {
+      type: 'select',
+      name: 'model',
+      label: 'Model',
+      options: [
+        { value: 'gpt-4', label: 'GPT-4' },
+        { value: 'gpt-3.5-turbo', label: 'GPT-3.5 Turbo' },
+        { value: 'claude-3', label: 'Claude-3' }
+      ]
+    },
+    {
+      type: 'number',
+      name: 'temperature',
+      label: 'Temperature',
+      placeholder: '0.7'
+    },
+    {
+      type: 'number',
+      name: 'maxTokens',
+      label: 'Max Tokens',
+      placeholder: '2048'
+    }
+  ],
+  handles: {
+    inputs: [
+      { id: 'system', color: '#8b5cf6' },
+      { id: 'prompt', color: '#3b82f6' }
+    ],
+    outputs: [{ id: 'response', color: '#10b981' }]
+  },
+  style: {
+    backgroundColor: '#faf5ff',
+    borderColor: '#8b5cf6'
+  }
+});
