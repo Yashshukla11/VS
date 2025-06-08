@@ -1,6 +1,3 @@
-/* Enhanced styles for the pipeline builder */
-
-/* Global styles */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -16,11 +13,11 @@ code {
     monospace;
 }
 
-/* Node input styles */
 .node-input,
 .node-textarea,
 .node-select {
   width: 100%;
+  max-width: 100%;
   padding: 8px 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
@@ -47,8 +44,13 @@ code {
   cursor: pointer;
 }
 
-/* Base node styles */
+.base-node,
+.base-node * {
+  box-sizing: border-box;
+}
+
 .base-node {
+  overflow: hidden;
   font-family: inherit;
 }
 
@@ -66,20 +68,30 @@ code {
   margin-bottom: 0;
 }
 
-/* ReactFlow customizations */
 .react-flow__handle {
-  width: 10px;
-  height: 10px;
-  border: 2px solid #ffffff;
-  transition: all 0.2s ease;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #222;
+  box-shadow: 0 0 0 4px rgba(76, 201, 240, 0.15);
+  border-radius: 50%;
+  z-index: 999;
+  position: absolute;
+  background: #fff;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  pointer-events: all;
+}
+
+.react-flow__handle[type='source'] {
+  right: -10px;
+}
+
+.react-flow__handle[type='target'] {
+  left: -10px;
 }
 
 .react-flow__handle:hover {
-  transform: scale(1.2);
-}
-
-.react-flow__handle-connecting {
-  background-color: #4f46e5 !important;
+  box-shadow: 0 0 0 8px rgba(79, 70, 229, 0.18);
+  border-color: #4f46e5;
 }
 
 .react-flow__edge-path {
@@ -109,7 +121,6 @@ code {
   color: #1e293b;
 }
 
-/* Submit button styles */
 .submit-container {
   padding: 20px;
   background-color: #ffffff;
@@ -141,7 +152,6 @@ code {
   transform: translateY(0);
 }
 
-/* Alert styles */
 .pipeline-alert {
   position: fixed;
   top: 20px;
@@ -250,7 +260,6 @@ code {
   color: #1e293b;
 }
 
-/* Loading state */
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -283,7 +292,6 @@ code {
   }
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .pipeline-alert {
     top: 10px;

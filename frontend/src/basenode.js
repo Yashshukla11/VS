@@ -22,18 +22,15 @@ export const BaseNode = ({
   const [nodeData, setNodeData] = useState(data || {});
   const [dimensions, setDimensions] = useState({ width: minWidth, height: minHeight });
 
-  // Handle field updates
   const handleFieldChange = (fieldName, value) => {
     const newData = { ...nodeData, [fieldName]: value };
     setNodeData(newData);
     
-    // If there's an update function in the store, call it
     if (data.updateNodeField) {
       data.updateNodeField(id, fieldName, value);
     }
   };
 
-  // Auto-resize functionality for text areas
   useEffect(() => {
     if (resizable) {
       const textField = fields.find(field => field.type === 'textarea');
@@ -50,9 +47,8 @@ export const BaseNode = ({
     }
   }, [nodeData, fields, resizable, minHeight, minWidth]);
 
-  // Render field based on type
   const renderField = (field) => {
-    const { type, name, label, placeholder, options = [] } = field;
+    const { type, name, placeholder, options = [] } = field;
     const value = nodeData[name] || '';
 
     switch (type) {
@@ -109,7 +105,6 @@ export const BaseNode = ({
     }
   };
 
-  // Render handles
   const renderHandles = () => {
     return (
       <>
@@ -143,19 +138,20 @@ export const BaseNode = ({
 
   const nodeStyle = {
     width: dimensions.width,
-    height: dimensions.height,
+    minWidth: minWidth,
     padding: '10px',
     border: selected ? '2px solid #4f46e5' : '1px solid #cbd5e1',
     borderRadius: '8px',
     backgroundColor: '#ffffff',
     boxShadow: selected ? '0 4px 12px rgba(79, 70, 229, 0.15)' : '0 2px 8px rgba(0, 0, 0, 0.1)',
     position: 'relative',
+    overflow: 'visible',
+    zIndex: 1,
     ...style
   };
 
   return (
     <div className={`base-node ${className}`} style={nodeStyle}>
-      {/* Node Title */}
       <div className="node-header" style={{ 
         fontWeight: 'bold', 
         marginBottom: '8px',
@@ -165,14 +161,12 @@ export const BaseNode = ({
         {title}
       </div>
 
-      {/* Custom Content (if provided) */}
       {customContent && (
         <div className="node-custom-content">
           {customContent(nodeData, handleFieldChange)}
         </div>
       )}
 
-      {/* Fields */}
       <div className="node-fields">
         {fields.map((field) => (
           <div key={field.name} className="node-field" style={{ marginBottom: '8px' }}>
@@ -191,13 +185,11 @@ export const BaseNode = ({
         ))}
       </div>
 
-      {/* Handles */}
       {renderHandles()}
     </div>
   );
 };
 
-// Higher-order component for creating specific node types
 export const createNodeType = (config) => {
   return (props) => <BaseNode {...props} config={config} />;
 };

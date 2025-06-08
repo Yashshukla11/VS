@@ -1,4 +1,3 @@
-// store.js - Enhanced with better node management
 import { create } from "zustand";
 import {
     addEdge,
@@ -23,7 +22,6 @@ export const useStore = create((set, get) => ({
     },
     
     addNode: (node) => {
-        // Add updateNodeField function to node data
         const nodeWithUpdate = {
             ...node,
             data: {
@@ -81,7 +79,6 @@ export const useStore = create((set, get) => ({
         });
     },
     
-    // Helper functions for pipeline analysis
     getNodeById: (nodeId) => {
         return get().nodes.find(node => node.id === nodeId);
     },
@@ -92,7 +89,6 @@ export const useStore = create((set, get) => ({
         );
     },
     
-    // Clear all nodes and edges
     clearPipeline: () => {
         set({
             nodes: [],
@@ -101,7 +97,6 @@ export const useStore = create((set, get) => ({
         });
     },
     
-    // Get pipeline statistics
     getPipelineStats: () => {
         const nodes = get().nodes;
         const edges = get().edges;

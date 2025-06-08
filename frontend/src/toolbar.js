@@ -1,5 +1,3 @@
-// toolbar.js - Updated with new nodes and styling
-import { DraggableNode } from './draggableNode';
 
 export const PipelineToolbar = () => {
     const nodeCategories = [
@@ -31,45 +29,118 @@ export const PipelineToolbar = () => {
 
     return (
         <div style={{ 
-            padding: '20px', 
+            padding: '10px 16px', 
             backgroundColor: '#f8fafc',
-            borderBottom: '1px solid #e2e8f0'
+            borderBottom: '1px solid #e2e8f0',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '24px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            overflowX: 'auto',
+            width: '100%',
+            minHeight: '60px',
+            maxHeight: '72px',
+            scrollbarWidth: 'thin',
+            zIndex: 10
         }}>
             <h2 style={{ 
-                margin: '0 0 20px 0', 
+                margin: '0', 
                 color: '#1e293b',
-                fontSize: '24px',
-                fontWeight: '600'
+                fontSize: '18px',
+                fontWeight: '700',
+                whiteSpace: 'nowrap',
+                paddingRight: '18px',
+                borderRight: '1px solid #e2e8f0'
             }}>
                 Pipeline Builder
             </h2>
             
-            {nodeCategories.map((category, categoryIndex) => (
-                <div key={categoryIndex} style={{ marginBottom: '24px' }}>
-                    <h3 style={{ 
-                        margin: '0 0 12px 0', 
-                        color: '#475569',
-                        fontSize: '16px',
-                        fontWeight: '500'
+            <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: '24px',
+                alignItems: 'center',
+                flex: '1',
+                minWidth: 0,
+                overflowX: 'auto',
+            }}>
+                {nodeCategories.map((category, categoryIndex) => (
+                    <div key={categoryIndex} style={{ 
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: '10px',
+                        padding: '0 8px',
+                        borderRight: categoryIndex !== nodeCategories.length - 1 ? '1px solid #e2e8f0' : 'none',
+                        marginRight: categoryIndex !== nodeCategories.length - 1 ? '8px' : 0
                     }}>
-                        {category.title}
-                    </h3>
-                    <div style={{ 
-                        display: 'flex', 
-                        flexWrap: 'wrap', 
-                        gap: '12px' 
-                    }}>
-                        {category.nodes.map((node) => (
-                            <DraggableNode 
-                                key={node.type}
-                                type={node.type} 
-                                label={node.label}
-                                color={node.color}
-                            />
-                        ))}
+                        <span style={{ 
+                            color: '#475569',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            whiteSpace: 'nowrap',
+                            marginRight: '8px'
+                        }}>
+                            {category.title}
+                        </span>
+                        <div style={{ 
+                            display: 'flex', 
+                            flexDirection: 'row',
+                            gap: '10px',
+                            paddingLeft: '8px',
+                            borderLeft: '1px solid #e2e8f0'
+                        }}>
+                            {category.nodes.map((node) => (
+                                <div key={node.type} style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    minWidth: '64px',
+                                    maxWidth: '80px',
+                                    height: '48px',
+                                    background: '#fff',
+                                    border: `2px solid ${node.color}`,
+                                    borderRadius: '10px',
+                                    boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+                                    cursor: 'grab',
+                                    transition: 'box-shadow 0.2s',
+                                    fontWeight: 600,
+                                    fontSize: '13px',
+                                    color: node.color,
+                                    userSelect: 'none',
+                                }}
+                                draggable
+                                onDragStart={(event) => {
+                                    const appData = { nodeType: node.type };
+                                    event.dataTransfer.setData('application/reactflow', JSON.stringify(appData));
+                                    event.dataTransfer.effectAllowed = 'move';
+                                }}
+                                >
+                                    <div style={{
+                                        width: '18px',
+                                        height: '18px',
+                                        borderRadius: '50%',
+                                        backgroundColor: node.color,
+                                        marginBottom: '4px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }} />
+                                    <span style={{
+                                        color: node.color,
+                                        fontWeight: 600,
+                                        fontSize: '13px',
+                                        textAlign: 'center',
+                                        whiteSpace: 'nowrap',
+                                    }}>{node.label}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 };

@@ -1,16 +1,11 @@
-// ui.js - Updated with new node types
 import { useState, useRef, useCallback } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
-
-// Import existing nodes
 import { InputNode } from './nodes/inputNode';
 import { LLMNode } from './nodes/llmNode';
 import { OutputNode } from './nodes/outputNode';
 import { TextNode } from './nodes/textNode';
-
-// Import new nodes
 import { MathNode } from './nodes/mathNode';
 import { FilterNode } from './nodes/filterNode';
 import { DelayNode } from './nodes/delayNode';
@@ -22,7 +17,6 @@ import 'reactflow/dist/style.css';
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
 
-// Updated node types with new nodes
 const nodeTypes = {
   customInput: InputNode,
   llm: LLMNode,
@@ -62,9 +56,7 @@ export const PipelineUI = () => {
       let nodeData = { 
         id: nodeID, 
         nodeType: `${type}`,
-        // Add updateNodeField function reference
         updateNodeField: (id, field, value) => {
-          // This will be handled by the store
         }
       };
       return nodeData;
@@ -79,7 +71,6 @@ export const PipelineUI = () => {
             const appData = JSON.parse(event.dataTransfer.getData('application/reactflow'));
             const type = appData?.nodeType;
       
-            // check if the dropped element is valid
             if (typeof type === 'undefined' || !type) {
               return;
             }
@@ -110,7 +101,7 @@ export const PipelineUI = () => {
 
     return (
         <>
-        <div ref={reactFlowWrapper} style={{width: '100vw', height: '70vh'}}>
+        <div ref={reactFlowWrapper} style={{width: '100vw', height: 'calc(100vh - 64px)'}}>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -133,6 +124,7 @@ export const PipelineUI = () => {
                 />
                 <Controls 
                   style={{
+                    marginBottom: 32,
                     button: {
                       backgroundColor: '#ffffff',
                       border: '1px solid #e2e8f0',

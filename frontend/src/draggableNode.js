@@ -1,4 +1,3 @@
-// draggableNode.js - Enhanced with better styling
 export const DraggableNode = ({ type, label, color = '#64748b' }) => {
     const onDragStart = (event, nodeType) => {
         const appData = { nodeType }
@@ -38,7 +37,6 @@ export const DraggableNode = ({ type, label, color = '#64748b' }) => {
             }}
             draggable
         >
-            {/* Color indicator */}
             <div style={{
                 width: '100%',
                 height: '4px',
@@ -48,7 +46,6 @@ export const DraggableNode = ({ type, label, color = '#64748b' }) => {
                 left: 0
             }} />
             
-            {/* Node icon/indicator */}
             <div style={{
                 width: '24px',
                 height: '24px',

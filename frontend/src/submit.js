@@ -1,4 +1,3 @@
-// submit.js - Enhanced with backend integration and styling
 import { useState } from 'react';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
@@ -17,13 +16,11 @@ export const SubmitButton = () => {
         setIsLoading(true);
         
         try {
-            // Prepare pipeline data
             const pipelineData = {
                 nodes: nodes,
                 edges: edges
             };
 
-            // Send to backend
             const response = await fetch('http://localhost:8000/pipelines/parse', {
                 method: 'POST',
                 headers: {
@@ -38,7 +35,6 @@ export const SubmitButton = () => {
 
             const result = await response.json();
             
-            // Show success alert
             setAlert({
                 type: 'success',
                 data: result
@@ -47,7 +43,6 @@ export const SubmitButton = () => {
         } catch (error) {
             console.error('Error submitting pipeline:', error);
             
-            // Show error alert
             setAlert({
                 type: 'error',
                 message: error.message || 'Failed to submit pipeline'
@@ -63,41 +58,35 @@ export const SubmitButton = () => {
 
     return (
         <>
-            {/* Loading Overlay */}
             {isLoading && (
                 <div className="loading-overlay">
                     <div className="loading-spinner"></div>
                 </div>
             )}
 
-            {/* Alert */}
             {alert && <PipelineAlert alert={alert} onClose={closeAlert} />}
 
-            {/* Submit Button */}
-            <div className="submit-container">
-                <button 
-                    className="submit-button"
-                    onClick={submitPipeline}
-                    disabled={isLoading || nodes.length === 0}
-                    style={{
-                        opacity: (isLoading || nodes.length === 0) ? 0.6 : 1,
-                        cursor: (isLoading || nodes.length === 0) ? 'not-allowed' : 'pointer'
-                    }}
-                >
-                    {isLoading ? 'Analyzing Pipeline...' : 'Submit Pipeline'}
-                </button>
-                
-                {nodes.length === 0 && (
-                    <p style={{ 
-                        marginLeft: '16px', 
-                        color: '#64748b', 
-                        fontSize: '14px',
-                        fontStyle: 'italic'
-                    }}>
-                        Add some nodes to get started
-                    </p>
-                )}
-            </div>
+            <button 
+                className="submit-button"
+                onClick={submitPipeline}
+                disabled={isLoading || nodes.length === 0}
+                style={{
+                    position: 'fixed',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    bottom: '40px',
+                    zIndex: 1000,
+                    opacity: (isLoading || nodes.length === 0) ? 0.6 : 1,
+                    cursor: (isLoading || nodes.length === 0) ? 'not-allowed' : 'pointer',
+                    boxShadow: '0 4px 24px rgba(79,70,229,0.18)',
+                    padding: '18px 40px',
+                    fontSize: '18px',
+                    borderRadius: '8px',
+                    fontWeight: 700
+                }}
+            >
+                {isLoading ? 'Analyzing Pipeline...' : 'Submit Pipeline'}
+            </button>
         </>
     );
 };
